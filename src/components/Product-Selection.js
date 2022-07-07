@@ -1,6 +1,5 @@
 import Autocomplete from './Autocomplete';
 import Card from './Card';
-import productList from './configs';
 import { useState } from 'react';
 
 export default function ProductSelection() {
@@ -23,7 +22,6 @@ export default function ProductSelection() {
       } else arr.push({});
     }
     return arr;
-    console.log(arr);
   };
 
   return (
