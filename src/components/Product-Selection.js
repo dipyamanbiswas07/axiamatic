@@ -1,7 +1,21 @@
 import Autocomplete from './Autocomplete';
 import Card from './Card';
 import productList from './configs';
+import { useState } from 'react';
+
 export default function ProductSelection() {
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [addedProducts, setAddedProducts] = useState([]);
+
+  const removeProduct = (product) => {
+    const modifiedProducts = addedProducts;
+    const index = modifiedProducts.findIndex((x) => x.id === product);
+    if (index > -1) {
+      modifiedProducts.splice(index, 1);
+    }
+    setAddedProducts([...modifiedProducts]);
+  };
+
   return (
     <div className='container w-full mx-auto p-8 m-10 font-sans'>
       <div className='flex justify-between'>
@@ -12,20 +26,27 @@ export default function ProductSelection() {
         <div className='w-1/2'>
           <div>
             <div className='p-10 flex flex-wrap'>
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+              {addedProducts.length > 0 &&
+                addedProducts.map((x, i) => (
+                  <Card
+                    onRemoveProduct={(product) => removeProduct(product)}
+                    product={x}
+                    key={i}
+                  />
+                ))}
             </div>
           </div>
-          <div className='text-center'>1 Product Added</div>
+          <div className='text-center'>
+            {addedProducts.length ? addedProducts.length : 'No'} Product
+            {addedProducts.length > 1 ? 's' : ''} Added
+          </div>
         </div>
         <div className='w-1/2 flex justify-center'>
           <div className='w-6/12 pt-32'>
             <div className='rounded-lg bg-fuchsia-500 text-center w-16 text-white py-1 text-sm'>
               1 of 3
             </div>
-            <div className='mt-8 text-3xl font-semibold'>
+            <div className='mt-4 text-3xl font-semibold'>
               Let's add your internal tools
             </div>
             <div className='mt-4 font-normal'>
@@ -33,8 +54,16 @@ export default function ProductSelection() {
               able to add as many as you need later but for now let's add four.
             </div>
             <div className='mt-4'>
-              <Autocomplete />
-              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 w-full'>
+              <Autocomplete
+                onAddProduct={(product) =>
+                  setAddedProducts([...addedProducts, product])
+                }
+                addedProducts={addedProducts}
+              />
+              <button
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 w-full disabled:opacity-25`}
+                disabled={addedProducts.length !== 4}
+              >
                 Next
               </button>
             </div>
