@@ -19,5 +19,15 @@ const productList = [
     name: 'Azure',
     image: '/images/Azure.png',
   },
+  {
+    id: 'zoom',
+    name: 'Zoom',
+    image: '/images/Zoom.png',
+  },
+  {
+    id: 'whatsapp',
+    name: 'WhatsApp',
+    image: '/images/Whatsapp.png',
+  },
 ];
 export default productList;

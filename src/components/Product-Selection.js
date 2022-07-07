@@ -15,6 +15,17 @@ export default function ProductSelection() {
     setAddedProducts([...modifiedProducts]);
   };
 
+  const totalProductList = () => {
+    const arr = [];
+    for (let i = 0; i < 4; i++) {
+      if (addedProducts.length > i) {
+        arr.push(addedProducts[i]);
+      } else arr.push({});
+    }
+    return arr;
+    console.log(arr);
+  };
+
   return (
     <div className='container w-full mx-auto p-8 m-10 font-sans'>
       <div className='flex justify-between'>
@@ -25,8 +36,8 @@ export default function ProductSelection() {
         <div className='w-1/2'>
           <div>
             <div className='p-10 flex flex-wrap'>
-              {addedProducts.length > 0 &&
-                addedProducts.map((x, i) => (
+              {totalProductList().length > 0 &&
+                totalProductList().map((x, i) => (
                   <Card
                     onRemoveProduct={(product) => removeProduct(product)}
                     product={x}
@@ -35,9 +46,12 @@ export default function ProductSelection() {
                 ))}
             </div>
           </div>
-          <div className='text-center'>
+          <div className='text-center font-semibold color text-gray-400'>
             {addedProducts.length ? addedProducts.length : 'No'} Product
-            {addedProducts.length > 1 ? 's' : ''} Added
+            {addedProducts.length > 1 || addedProducts.length === 0
+              ? 's'
+              : ''}{' '}
+            Added
           </div>
         </div>
         <div className='w-1/2 flex justify-center'>
@@ -62,6 +76,7 @@ export default function ProductSelection() {
               <button
                 className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 w-full disabled:opacity-25`}
                 disabled={addedProducts.length !== 4}
+                onClick={() => alert('API Call')}
               >
                 Next
               </button>
