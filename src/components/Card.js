@@ -13,11 +13,13 @@ export default function Card({ product, onRemoveProduct }) {
         <div class='px-6 py-4 text-center'>
           <div class='font-bold text-xl mb-2'>{product.name}</div>
         </div>
-        <div
-          className='text-center py-2'
-          onClick={() => onRemoveProduct(product.id)}
-        >
-          Remove
+        <div className='py-2 flex justify-center'>
+          <div
+            className='text-center cursor-pointer '
+            onClick={() => onRemoveProduct(product.id)}
+          >
+            Remove
+          </div>
         </div>
       </div>
     )

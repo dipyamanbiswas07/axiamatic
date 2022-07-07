@@ -4,6 +4,7 @@ import './styles.css';
 
 export default function Autocomplete({ value, onAddProduct, addedProducts }) {
   const [show, setShow] = useState(false);
+  const [inputText, setInputText] = useState('');
 
   const select = (option) => {
     this.setShow(false);
@@ -13,21 +14,30 @@ export default function Autocomplete({ value, onAddProduct, addedProducts }) {
     return addedProducts.length !== 4;
   };
 
+  const filteredProducts = productList.filter((x) =>
+    x.name.toLowerCase().includes(inputText.toLowerCase())
+  );
+
+  const clearAutoComplete = () => {
+    setShow(false);
+    setInputText('');
+  };
+
   const handleClick = (product) => {
     if (addedProducts.length === 4) {
       alert('Can add only 4 products');
-      setShow(false);
+      clearAutoComplete();
       return;
     }
 
     if (addedProducts.find((x) => x.id === product.id)) {
       alert('Product already added to the list');
-      setShow(false);
+      clearAutoComplete();
       return;
     }
 
     onAddProduct(product);
-    setShow(false);
+    clearAutoComplete();
   };
 
   return (
@@ -55,7 +65,11 @@ export default function Autocomplete({ value, onAddProduct, addedProducts }) {
           class='block p-4 pl-10 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-transparent'
           placeholder='Search for any software ...'
           required
+          onChange={(e) => {
+            setInputText(e.target.value);
+          }}
           onFocus={() => setShow(true)}
+          value={inputText}
         />
       </div>
       <ul
@@ -63,7 +77,7 @@ export default function Autocomplete({ value, onAddProduct, addedProducts }) {
           !show && 'hidden'
         }`}
       >
-        {productList.map((product) => (
+        {filteredProducts.map((product) => (
           <li
             className='p-2 w-full text-sm font-medium text-zinc-500 cursor-pointer'
             key={product.id}

@@ -4,7 +4,6 @@ import productList from './configs';
 import { useState } from 'react';
 
 export default function ProductSelection() {
-  const [selectedProduct, setSelectedProduct] = useState('');
   const [addedProducts, setAddedProducts] = useState([]);
 
   const removeProduct = (product) => {
